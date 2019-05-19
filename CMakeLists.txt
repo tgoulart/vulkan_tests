@@ -1,12 +1,20 @@
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required (VERSION 3.14.0)
 project(HelloWorld)
 
 # dependencies
-set(VulkanSDKPath "${PROJECT_SOURCE_DIR}/vulkansdk-macos-1.1.101.0/macOS")
+set(VulkanSDKPath "${PROJECT_SOURCE_DIR}/vulkansdk-macos-1.1.106.0/macOS")
+
+set(BUILD_SHARED_LIBS OFF CACHE BOOL "GLFW's build shared library option")
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "GLFW's build examples option")
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "GLFW's build tests option")
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "GLFW's build docs option")
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/external/glfw" glfw)
 
 # sources
 set(SourceFiles
+    src/glfw_integration.cpp
     src/main.cpp
+    src/vulkan_integration.cpp
 )
 
 add_executable(HelloWorld ${SourceFiles})
@@ -28,5 +36,6 @@ target_include_directories(HelloWorld
 )
 
 target_link_libraries(HelloWorld
-    ${VulkanSDKPath}/lib/libvulkan.1.dylib
+    ${VulkanSDKPath}/lib/libvulkan.dylib
+    glfw
 )
