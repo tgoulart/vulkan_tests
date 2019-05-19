@@ -12,9 +12,9 @@ add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/external/glfw" glfw)
 
 # sources
 set(SourceFiles
-    src/glfw_integration.cpp
-    src/main.cpp
-    src/vulkan_integration.cpp
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/glfw_integration.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/vulkan_integration.cpp"
 )
 
 add_executable(HelloWorld ${SourceFiles})
@@ -39,3 +39,10 @@ target_link_libraries(HelloWorld
     ${VulkanSDKPath}/lib/libvulkan.dylib
     glfw
 )
+
+add_custom_target(Shaders
+    COMMAND "${VulkanSDKPath}/bin/glslangValidator" -V "${CMAKE_CURRENT_SOURCE_DIR}/resources/triangle.vert" -o "${CMAKE_CURRENT_BINARY_DIR}/triangle_vert.spv"
+    COMMAND "${VulkanSDKPath}/bin/glslangValidator" -V "${CMAKE_CURRENT_SOURCE_DIR}/resources/color.frag" -o "${CMAKE_CURRENT_BINARY_DIR}/color_frag.spv"
+)
+
+add_dependencies(HelloWorld Shaders)

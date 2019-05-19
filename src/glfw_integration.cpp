@@ -5,6 +5,9 @@
 #include "include_vulkan.hpp"
 #include <GLFW/glfw3.h>
 
+const uint32_t kWindowWidth = 800;
+const uint32_t kWindowHeight = 600;
+
 namespace {
     GLFWwindow *_window;
 }
@@ -14,7 +17,13 @@ namespace glfw {
         glfwInit();
         assert(glfwVulkanSupported() == GLFW_TRUE);
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-        _window = glfwCreateWindow(800, 600, "Vulkan window", nullptr, nullptr);
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+        _window = glfwCreateWindow(kWindowWidth, kWindowHeight, "Vulkan window", nullptr, nullptr);
+    }
+
+    void shutdown() {
+        glfwDestroyWindow(_window);
+        glfwTerminate();
     }
 
     void* createSurface(void *vulkanInstance) {
@@ -25,9 +34,8 @@ namespace glfw {
         return surface;
     }
 
-    void shutdown() {
-        glfwDestroyWindow(_window);
-        glfwTerminate();
+    std::pair<uint32_t, uint32_t> windowSize() {
+        return std::make_pair(kWindowWidth, kWindowHeight);
     }
 
     std::vector<const char *> requiredVulkanExtensions() {
