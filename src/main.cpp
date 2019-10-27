@@ -10,9 +10,14 @@ int main(int argc, const char * argv[]) {
     glfw::initialize();
     vulkan::initialize();
 
+    vulkan::setupScene();
+
     while (!glfw::shouldCloseWindow()) {
         glfw::pollEvents();
+        vulkan::drawFrame();
     }
+
+    vulkan::tearDownScene();
 
     vulkan::shutdown();
     glfw::shutdown();

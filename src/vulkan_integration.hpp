@@ -8,4 +8,5 @@ namespace vulkan {
 
     void setupScene();
     void tearDownScene();
+    void drawFrame();
 }
